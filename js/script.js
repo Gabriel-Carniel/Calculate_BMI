@@ -1,3 +1,8 @@
+// Precisa de um servidor para funcionar*
+import { Modal } from "./modal.js" 
+import { AlertError } from "./alert-error.js"
+import { IMC, notANumber } from "./utils.js"
+
 // variables
 const form = document.querySelector('form')
 const inputWeight = document.querySelector('#weight')
@@ -7,21 +12,6 @@ const inputHeight = document.querySelector('#height')
 // const modalMessage = document.querySelector(".modal .title span")
 // const modalBtnClose = document.querySelector('.modal button.close') 
 
-const Modal = { // Object literal
-
-  wrapper: document.querySelector(".modal-wrapper"),
-  message: document.querySelector(".modal .title span"),
-  buttonClose: document.querySelector('.modal button.close'),
-
-  open() { // O padrão seria escrever: open: function () {} / mas aceita essa forma mais curta  
-    //modalWrapper.classList.add('open')
-    Modal.wrapper.classList.add('open')
-  },
-  close() {
-    //modalWrapper.classList.remove("open")
-    Modal.wrapper.classList.remove("open")
-  }
-}
 
 form.onsubmit = event => {
 
@@ -29,6 +19,13 @@ form.onsubmit = event => {
 
   const weight = inputWeight.value
   const height = inputHeight.value
+
+  if(notANumber(weight) || notANumber(height)){
+    AlertError.open()
+    return;
+  }
+
+  AlertError.close()
 
   const result = IMC(weight, height)
   const message = `Seu IMC é de ${result}`
@@ -40,11 +37,13 @@ form.onsubmit = event => {
   Modal.open() // Faz a mesma coisa que a linha acima por conta da função criada no objeto "Modal"
 }
 
-Modal.buttonClose.onclick = () => {
-  // modalWrapper.classList.remove("open")
-  Modal.close() // Faz a mesma coisa que a linha acima, por conta da funcão criada no objeto "Modal"
+inputWeight.oninput = function(event) {
+  AlertError.close()
 }
 
-function IMC(weight, height) {
-  return (weight / ((height / 100) ** 2)).toFixed(2)
+inputHeight.oninput = function(event) {
+  AlertError.close()
 }
+
+
+
