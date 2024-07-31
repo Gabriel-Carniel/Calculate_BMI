@@ -13,7 +13,7 @@ const Modal = { // Object literal
   message: document.querySelector(".modal .title span"),
   buttonClose: document.querySelector('.modal button.close'),
 
-  open() { // O padrão seria escrever: open: function () {} / mas aceita essa forma mais curta
+  open() { // O padrão seria escrever: open: function () {} / mas aceita essa forma mais curta  
     //modalWrapper.classList.add('open')
     Modal.wrapper.classList.add('open')
   },
